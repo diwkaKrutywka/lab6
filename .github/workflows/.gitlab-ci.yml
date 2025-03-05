@@ -21,7 +21,7 @@ build:
   services:
     - docker:dind
   before_script:
-    - docker login -u "$diwkakrutywka" -p "$Kgmsad45"
+    - docker login -u "$diwkakrutywka" -p "$Omarbayeva04"
   script:
     - docker build -t $IMAGE_NAME:latest .
     - docker push $IMAGE_NAME:latest
@@ -32,7 +32,7 @@ deploy:
   services:
     - docker:dind
   before_script:
-    - docker login -u "$diwkakrutywka" -p "$Kgmsad45"
+    - docker login -u "$diwkakrutywka" -p "$Omarbayeva04"
   script:
     - docker stop flask-app || true
     - docker rm flask-app || true
