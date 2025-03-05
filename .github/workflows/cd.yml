@@ -3,7 +3,7 @@ name: CD Pipeline
 on:
   push:
     branches:
-      - main  # Измени при необходимости
+      - main
 
 jobs:
   deploy:
@@ -12,12 +12,12 @@ jobs:
     steps:
       - name: Checkout репозиторий
         uses: actions/checkout@v3
-      
+
       - name: Установка Docker
         run: |
           sudo apt-get update
-          sudo apt-get install -y docker.io
-      
+          sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
       - name: Запуск контейнера
         run: |
           docker build -t my-app .
@@ -25,5 +25,5 @@ jobs:
 
       - name: Проверка работы контейнера
         run: |
-          sleep 5  # Ожидание запуска контейнера
+          sleep 5
           curl -f http://localhost || exit 1
