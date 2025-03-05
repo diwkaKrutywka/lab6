@@ -45,7 +45,6 @@ jobs:
         run: |
           docker build -t diwkakrutywka/diana_lab:latest .
           docker push diwkakrutywka/diana_lab:latest
-
       - name: Deploy container
         run: |
           docker stop flask-app || true
