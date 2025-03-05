@@ -1,52 +1,24 @@
-name: CI/CD Pipeline
+name: Deploy to DockerHub
 
 on:
   push:
     branches:
-      - main
-
-permissions:
-  contents: write
+      - main  # Запускать при пуше в main
 
 jobs:
-  test:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.9
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run tests
-        run: pytest
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
 
       - name: Login to DockerHub
         run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-      - name: Build and push Docker image
-        run: |
-          docker build -t diwkakrutywka/diana_lab:latest .
-          docker push diwkakrutywka/diana_lab:latest
-      - name: Deploy container
-        run: |
-          docker stop flask-app || true
-          docker rm flask-app || true
-          docker run -d -p 5000:5000 --name flask-app diwkakrutywka/diana_lab:latest
+      - name: Build Docker Image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/my-app:latest .
+
+      - name: Push Docker Image
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-app:latest
