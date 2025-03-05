@@ -2,18 +2,15 @@ name: CI Pipeline
 
 on:
   push:
-    branches:
-      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Run build
-        run: echo "Building project..."
+      
 
   notify:
     needs: build
@@ -22,13 +19,12 @@ jobs:
       - name: Send Email Notification
         uses: dawidd6/action-send-mail@v3
         with:
-        server_address: ${{ secrets.EMAIL_HOST }}
-        server_port: 587 
-        username: ${{ secrets.EMAIL_USERNAME }}
-        password: ${{ secrets.EMAIL_PASSWORD }}
-        subject: "CI/CD Status: SUCCESS"
-        body: "Your pipeline has completed successfully!"
-        to: "your-email@example.com"
-        from: "CI Bot <ci-notifications@example.com>"
-        secure: true  
-    
+          server_address: ${{ secrets.EMAIL_HOST }} 
+          server_port: 587 
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "CI/CD Pipeline Notification"
+          body: "Your pipeline has completed successfully!"
+          to: "your-email@example.com"
+          from: "CI Bot <ci-notifications@example.com>"
+          secure: false 
